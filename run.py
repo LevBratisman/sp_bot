@@ -50,6 +50,26 @@ async def get_materials(callback_query: CallbackQuery):
         await bot.send_message(chat_id=callback_query.from_user.id, 
                                text='Конспекты:', 
                                reply_markup=keyboards.conspect_list)
+    elif callback_query.data == 'nuton':
+        await bot.send_message(chat_id=callback_query.from_user.id, 
+                               text='Конспект по Ньютону:')
+        await bot.send_document(callback_query.from_user.id, 
+                                document='BQACAgIAAx0Cd9gAAe8AAxll4r75l1mQ-PwvNl0nIPEaDEhCmwAC90MAAvipGEtftVIKCXcNpDQE')
+        await bot.send_message(chat_id=callback_query.from_user.id, 
+                               text='Конспекты:', 
+                               reply_markup=keyboards.conspect_list)
+    elif callback_query.data == 'galileo':
+        await bot.send_document(callback_query.from_user.id, 
+                                document='BQACAgIAAx0Cd9gAAe8AAxVl4r3IZ40kOxDcd90nkLn-FMHIbQAC8EMAAvipGEuRcwykKjWaijQE')
+        await bot.send_message(chat_id=callback_query.from_user.id, 
+                               text='Исторические справки:', 
+                               reply_markup=keyboards.references_list)
+    elif callback_query.data == 'tesla':
+        await bot.send_document(callback_query.from_user.id, 
+                                document='BQACAgIAAx0Cd9gAAe8AAxZl4r3IvTXt1L0NjaSf3JW7rHEJ_AAC8UMAAvipGEsH701aK1NJlzQE')
+        await bot.send_message(chat_id=callback_query.from_user.id, 
+                               text='Исторические справки:', 
+                               reply_markup=keyboards.references_list)
         
 
 

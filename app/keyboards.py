@@ -43,6 +43,10 @@ conspect_list = InlineKeyboardMarkup(inline_keyboard=[
                             callback_data="static")
     ],
     [
+        InlineKeyboardButton(text="Ньютон", 
+                            callback_data="nuton")
+    ],
+    [
         InlineKeyboardButton(text="Вернуться назад", 
                             callback_data="back_to_materials")
     ]
@@ -63,6 +67,14 @@ formulas_list = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 references_list = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        InlineKeyboardButton(text="Галилео", 
+                            callback_data="galileo")
+    ],
+    [
+        InlineKeyboardButton(text="Тесла", 
+                            callback_data="tesla")
+    ],
     [
         InlineKeyboardButton(text="Вернуться назад", 
                             callback_data="back_to_materials")

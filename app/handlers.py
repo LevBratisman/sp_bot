@@ -33,6 +33,11 @@ async def get_about_cmd(message: Message):
     await message.answer("По всем вопросам обращайтесь к моему создателю: @bratisman")
     
     
+@router.message(Command("faq"))
+async def get_faq_cmd(message: Message):
+    await message.answer("В разработке...")
+    
+    
 @router.message(Command("materials"))
 async def materials_cmd(message: Message):
     await message.answer("Подгружаю материалы...")
