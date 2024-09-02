@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: sp_bot_db
+    restart: always
+    environment:
+      POSTGRES_DB: spbotdb
+      POSTGRES_USER: bot
+      POSTGRES_PASSWORD: botpassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  bot:
+    build: .
+    container_name: sp_bot
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: sh -c "poetry run alembic upgrade head && poetry run python3 run.py"
+
+volumes:
+  pgdata:
