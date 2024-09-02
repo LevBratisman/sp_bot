@@ -51,6 +51,9 @@ async def get_categories():
     for category in categories:
         keyboard.add(InlineKeyboardButton(text=category.name, callback_data=CategoryCallBack(id=category.id, action='show').pack()))
         
+    if not categories:
+        return None
+
     return keyboard.adjust(1, 2).as_markup()
 
 
