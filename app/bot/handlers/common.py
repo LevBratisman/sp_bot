@@ -8,6 +8,7 @@ from aiogram.filters import StateFilter
 
 from app.common.repository.user_repository import UserRepository
 from app.bot.keyboards import reply as rp
+from app.bot.keyboards import inline as inl
 from app.bot.common.text import text_about
 from app.core.config import settings
 
@@ -32,4 +33,4 @@ async def start_cmd(message: Message, state: FSMContext):
 async def about_bot(message: Message):
     await message.answer_sticker(sticker="CAACAgIAAxkBAAPUZdtMgrKCGWN1hGG7sC9lB1Ob2nIAAhsTAAJakthIYwemdV7Qq5c0BA")
     await asyncio.sleep(1)
-    await message.answer(text_about)
+    await message.answer(text_about, reply_markup=inl.web_app_info)
