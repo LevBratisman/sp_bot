@@ -21,7 +21,8 @@ class Videos(StatesGroup):
 
 # ------------ GET VIDEOS start ----------
 
-@video_router.message(F.text == '🎥Видео-контент', StateFilter('*'))
+
+@video_router.message(F.text == "🎥Видео-контент", StateFilter("*"))
 async def get_video_start(message: Message, state: FSMContext):
     await state.clear()
 
@@ -31,33 +32,39 @@ async def get_video_start(message: Message, state: FSMContext):
         await message.answer("Пусто...")
         await state.clear()
         return
-    await message.answer("Выберите видео", 
-                         reply_markup=video_kb)
-    
-    
+    await message.answer("Выберите видео", reply_markup=video_kb)
+
+
 @video_router.callback_query(Videos.file, VideoCallBack.filter())
-async def choose_video(callback: CallbackQuery, callback_data: VideoCallBack, state: FSMContext, bot: Bot):
-    if callback_data.action == 'back':
-        await callback.answer(f'Меню')
+async def choose_video(
+    callback: CallbackQuery, callback_data: VideoCallBack, state: FSMContext, bot: Bot
+):
+    if callback_data.action == "back":
+        await callback.answer(f"Меню")
         await state.clear()
         await callback.message.edit_text("Вы вышли из 'Видео-контент'")
     else:
-        await callback.answer('Видео-контент получен')
-        await state.set_state(Videos.to_menu)
-        await callback.message.delete()
-        
+
         video = await VideoRepository.get_by_id(callback_data.id)
-        await bot.send_video(chat_id=callback.message.chat.id, 
-                             video=video.file, 
-                             caption=video.caption, 
-                             reply_markup=inl.back)
-        
-        
-@video_router.callback_query(Videos.to_menu)
-async def get_video_to_menu(callback: CallbackQuery, state: FSMContext):
-    if callback.data == 'back':
-        await state.set_state(Videos.file)
-        await callback.message.delete()
-        await callback.answer('Видео-контент')
-        await callback.message.answer("Выберите видео:", reply_markup=await get_videos())
-        
+        if not video:
+            await callback.answer("Видео не найдено")
+            return
+        else:
+            try:
+                await bot.send_video(
+                    chat_id=callback.message.chat.id,
+                    video=video.file,
+                    caption=video.caption,
+                )
+            except Exception as e:
+                await callback.answer("Видео не найдено")
+                return
+
+            await callback.answer("Видео-контент получен")
+            await callback.message.delete()
+            video_kb = await get_videos()
+            if not video_kb:
+                await callback.answer("Пусто...")
+                await state.clear()
+                return
+            await callback.message.answer("Выберите видео", reply_markup=video_kb),
